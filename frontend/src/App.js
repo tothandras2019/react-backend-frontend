@@ -7,12 +7,16 @@ function App() {
   const [input, setInput] = useState('')
   const [tobesend, setTobesend] = useState(null)
 
-  useEffect(() => {
+  const getTodos = async () => {
     const url = 'http://127.0.0.1:9000/todos'
-    // const url = '/todos'
-    fetch(url)
+    // const url = '/todo s'
+    await fetch(url)
       .then((res) => res.json())
       .then((todos) => setTodos(todos))
+  }
+
+  useEffect(() => {
+    getTodos(todos)
     return () => {}
   }, [])
 
@@ -38,15 +42,18 @@ function App() {
 
   useEffect(() => {
     if (!tobesend) return
-    console.log('add')
-
     const url = 'http://127.0.0.1:9000/add'
     // const url = '/add'
     fetch(url, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
+
       body: JSON.stringify(tobesend),
-    }).then((response) => console.log(response))
+    }).then((response) => {
+      if (!response.ok) return
+      setTobesend(null)
+      getTodos()
+    })
   }, [tobesend])
 
   return (
