@@ -21,12 +21,14 @@ app.get('/todos', (req, res) => {
 app.post('/add', (req, res) => {
   const todo = req.body
   fs.readFile(path.join(__dirname, '/DATA/todos.json'), (err, data) => {
-    if (err) res.status(400).send({ message: 'ther is an error' })
+    if (err) res.status(400).send({ message: 'there is an error' })
+
     const todosList = JSON.parse(data)
     todosList.push(todo)
 
     fs.writeFile(path.join(__dirname, '/DATA/todos.json'), JSON.stringify(todosList), (err) => {
       if (err) res.status(400).send({ message: 'there is an error at write file' })
+
       res.status(200).send({ message: 'ok' })
     })
   })

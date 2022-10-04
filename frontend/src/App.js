@@ -39,6 +39,7 @@ function App() {
   useEffect(() => {
     if (!tobesend) return
     console.log('add')
+
     const url = 'http://127.0.0.1:9000/add'
     // const url = '/add'
     fetch(url, {
